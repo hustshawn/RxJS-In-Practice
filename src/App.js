@@ -6,8 +6,7 @@ import $ from 'jquery';
 
 const frequency       = 100,
       maxBarLength    = 87;
-let   barLength       = 0,
-      initialized     = false,
+let   initialized     = false,
       rawColor        = 0,
       debounceColor   = 0,
       globalColor     = 2;
@@ -22,11 +21,12 @@ class App extends Component {
     const triggerAreaStream$ = Rx.Observable.fromEvent(triggerArea, 'mousemove click');
     const resetAreaStream$ = Rx.Observable.fromEvent(resetArea, 'click');
 
+    // the periodic stream to draw the color bars.
     const interval$ = Rx.Observable
       .interval(frequency)
       .startWith(triggerAreaStream$)
       .take(maxBarLength)
-      .takeUntil(resetAreaStream$);   // the periodic stream to draw the color bars.
+      .takeUntil(resetAreaStream$);   
     
     triggerAreaStream$
       .subscribe(event => {
@@ -52,7 +52,6 @@ class App extends Component {
       this.rawEvents.empty();
       this.debouncedEvents.empty();
       initialized = false;
-      barLength = 0;
     }); // resetAreaStream$
   } // componentDidMount
 
